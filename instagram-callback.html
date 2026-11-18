@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Instagram-Anmeldung – Clip-Finder</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<h1>Instagram-Anmeldung</h1>
+<p id="msg">Weiter zum Clip-Finder …</p>
+</main>
+<script>
+// Instagram erlaubt nur https-Weiterleitungen. Diese Seite reicht die Antwort an den Clip-Finder auf dem eigenen Rechner weiter.
+(function () {
+  var params = new URLSearchParams(location.search), out = new URLSearchParams();
+  ["code", "state", "error", "error_reason", "error_description"].forEach(function (k) { if (params.has(k)) out.set(k, params.get(k)); });
+  if (!out.has("code") && !out.has("error")) {
+    document.getElementById("msg").textContent = "Diese Seite wird nur bei der Anmeldung aus dem Clip-Finder gebraucht.";
+    return;
+  }
+  location.replace("http://localhost:8010/api/publish/instagram/callback?" + out.toString());
+})();
+</script>
+</body>
+</html>
